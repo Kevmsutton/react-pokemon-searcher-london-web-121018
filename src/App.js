@@ -1,11 +1,25 @@
-import React from 'react'
-import PokemonIndex from './components/PokemonIndex'
-import './App.css'
+import React from "react";
+import PokemonIndex from "./components/PokemonIndex";
+import "./App.css";
 
-const App = () => (
-  <div className="App">
-    <PokemonIndex />
-  </div>
-)
+class App extends React.Component {
+  state = {
+    pokemons: []
+  };
 
-export default App
+  componentDidMount() {
+    fetch(`http://localhost:3000/pokemon`)
+      .then(resp => resp.json())
+      .then(pokemonData => this.setState({ pokemons: pokemonData }));
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <PokemonIndex pokemons={this.state.pokemons} />
+      </div>
+    );
+  }
+}
+
+export default App;
